@@ -1,0 +1,54 @@
+#!/bin/bash
+
+#SBATCH --ntasks=24
+#SBATCH --mem=60GB
+
+
+#SBATCH -J BluePyOpt_IPP
+#SBATCH -p costas
+#SBATCH -t 48:00:00
+#SBATCH --array=0-4
+
+##SBATCH --output=/dev/null --error=/dev/null
+
+. /home/wuy2/2022_0801_all_in_one/blue2/bin/activate
+
+set -e
+set -x
+
+PWD=$(pwd)
+
+
+cd ..
+
+
+
+##export IPYTHONDIR=${PWD}/.ipython
+##export IPYTHON_PROFILE=benchmark.${SLURM_JOBID}
+
+##ipcontroller --init --ip='*' --nodb  --ping=30000 --profile=${IPYTHON_PROFILE} &
+##sleep 10
+
+##srun --output="/dev/null" ipengine --timeout=300 --profile=${IPYTHON_PROFILE} &
+##sleep 10
+
+
+
+##python RUN_THIS_FILE_ipp.py  ${SLURM_ARRAY_TASK_ID} 1 
+
+
+
+
+SCOOP_WRAPPER=/home/wuy2/2022_0801_all_in_one/wrapper_venv.sh
+
+export INPUTFILE2=`pwd`/log_evaluator_scoop_ipp.py
+
+
+scontrol show hostnames > hostfile
+
+
+python -m scoop --hostfile hostfile -n ${SLURM_NTASKS} --python-interpreter=$SCOOP_WRAPPER $INPUTFILE2  ${SLURM_ARRAY_TASK_ID} 1
+
+
+
+

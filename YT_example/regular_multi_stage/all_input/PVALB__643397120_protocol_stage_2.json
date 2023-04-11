@@ -1,0 +1,52 @@
+{
+    "10": {
+        "stimuli": [
+            {
+                "amp": 0.04,
+                "delay": 1020,
+                "duration": 1000,
+                "totduration": 3000
+            }
+        ]
+    },
+    "12": {
+        "stimuli": [
+            {
+                "amp": 0.09,
+                "delay": 1020,
+                "duration": 1000,
+                "totduration": 3000
+            }
+        ]
+    },
+    "13": {
+        "stimuli": [
+            {
+                "amp": 0.13,
+                "delay": 1020,
+                "duration": 1000,
+                "totduration": 3000
+            }
+        ]
+    },
+    "4": {
+        "stimuli": [
+            {
+                "amp": -0.09,
+                "delay": 1020,
+                "duration": 1000,
+                "totduration": 3000
+            }
+        ]
+    },
+    "8": {
+        "stimuli": [
+            {
+                "amp": 0.05,
+                "delay": 1020,
+                "duration": 1000,
+                "totduration": 3000
+            }
+        ]
+    }
+}
