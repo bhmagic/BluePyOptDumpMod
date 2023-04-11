@@ -1,0 +1,70 @@
+{
+    "Ahhh": {
+        "soma": {
+            "voltage_base": [
+                19.7207,
+                3.7204
+            ],
+            "steady_state_voltage": [
+                0.1968,
+                0.0112
+            ],
+            "steady_state_voltage_stimend": [
+                0.0737,
+                0.0292
+            ],
+            "sag_amplitude": [
+                0.0737,
+                0.0292
+            ],
+            "time_to_first_spike": [
+                0.0737,
+                0.0292
+            ],
+            "inv_first_ISI": [
+                0.0737,
+                0.0292
+            ],
+            "depol_block": [
+                0.0737,
+                0.0292
+            ],
+            "Spikecount": [
+                1.0,
+                0.25486038554225654
+            ],
+            "AP1_peak": [
+                1.0,
+                0.25486038554225654
+            ],
+            "AP1_width": [
+                1.0,
+                0.25486038554225654
+            ],
+            "AHP1_depth_from_peak": [
+                1.0,
+                0.25486038554225654
+            ],
+            "AHP_depth": [
+                1.0,
+                0.25486038554225654
+            ],
+            "AHP_time_from_peak": [
+                0.0737,
+                0.0292
+            ],
+            "decay_time_constant_after_stim": [
+                0.0737,
+                0.0292
+            ],
+
+            "mean_AP_amplitude": [
+                0.0737,
+                0.0292
+            ]
+
+
+
+        }
+    }
+}

@@ -1,0 +1,16 @@
+
+
+. /home/wuy2/2022_0801_all_in_one/blue2/bin/activate
+
+##. /home/wuy2/MET/bin/activate
+
+
+python making_feature_file_v12.py
+#python modding_swc_v8.py
+#python modding_swc_merging_dendrite.py
+
+python modding_swc_cut_axxon.py
+
+
+rm -r .ipython
+

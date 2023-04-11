@@ -1,0 +1,17 @@
+#!/bin/bash
+#$ -pe mpi 32
+#$ -q all.q
+#$ -j yes
+#$ -N Log_Evaluator_YT
+#$ -cwd
+
+. ~/.bash_profile
+
+
+conda activate MET
+# cd /home/wuy2/2022_05_23_L2L3_Anirban_para
+
+python -m scoop log_evaluator_scoop_v9.py 0 1 1
+
+
+exit 0

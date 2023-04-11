@@ -1,0 +1,41 @@
+#!/bin/bash
+#SBATCH --ntasks=48
+#SBATCH --ntasks-per-node=48
+#SBATCH -J BluePyOpt_YT
+#SBATCH -p costas
+#SBATCH -t 48:00:00
+
+
+
+
+#module purge
+#module load slurm
+#module load gcc
+#module load openmpi
+
+
+
+
+#. /home/wuy2/.bash_profile
+#conda activate MET
+
+#module load python39
+
+. /home/wuy2/2022_0801_all_in_one/blue2/bin/activate
+
+SCOOP_WRAPPER=/home/wuy2/2022_0801_all_in_one/wrapper_venv.sh
+
+export INPUTFILE1=`pwd`/RUN_THIS_FILE_scoop_v8_seq.py
+export INPUTFILE2=`pwd`/log_evaluator_scoop_v9.py
+
+
+
+#python making_feature_file_v8.py
+#python modding_swc_v8.py
+
+scontrol show hostnames > hostfile
+
+
+python -m scoop  --hostfile hostfile -n ${SLURM_NTASKS} --python-interpreter=$SCOOP_WRAPPER $INPUTFILE1 ${SLURM_ARRAY_TASK_ID} ${SLURM_ARRAY_TASK_COUNT} 1
+python -m scoop --hostfile hostfile -n ${SLURM_NTASKS} --python-interpreter=$SCOOP_WRAPPER $INPUTFILE2 ${SLURM_ARRAY_TASK_ID} ${SLURM_ARRAY_TASK_COUNT} 1
+

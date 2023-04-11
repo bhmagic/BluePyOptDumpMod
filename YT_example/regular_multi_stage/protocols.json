@@ -1,0 +1,12 @@
+{
+    "Testing": {
+        "stimuli": [
+            {
+                "delay": 700,
+                "amp": 0.95,
+                "duration": 2000,
+                "totduration": 3000
+            }
+        ]
+    }
+}

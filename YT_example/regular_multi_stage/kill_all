@@ -1,0 +1,6 @@
+for n in $(qstat -f|grep cscl|grep -v u$|cut -d @ -f 2|cut -d . -f 1|sort -u);do ssh $n pkill -u wuy2;done
+#rm -r 541549258_seed_1_Outputs
+#rm -r Exc_L2-3_LINC00507_FREM3_features_v8
+#qsub mybatch_v8
+#qsub log_batch_v9
+
