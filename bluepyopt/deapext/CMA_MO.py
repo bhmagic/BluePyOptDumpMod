@@ -30,7 +30,7 @@ import deap
 from deap import base
 from deap import cma
 
-from .stoppingCriteria import MaxNGen, Stagnationv2
+from .stoppingCriteria import MaxNGen
 from . import utils
 from . import hype
 
@@ -90,7 +90,6 @@ class CMA_MO(cma.StrategyMultiObjective):
         weight_hv=0.5,
         map_function=None,
         use_scoop=False,
-        use_stagnation_criterion=True,
     ):
         """Constructor
 
@@ -110,8 +109,6 @@ class CMA_MO(cma.StrategyMultiObjective):
             map_function (map): function used to map (parallelize) the
                  evaluation function calls
             use_scoop (bool): use scoop map for parallel computation
-            use_stagnation_criterion (bool): whether to use the stagnation
-                stopping criterion on top of the maximum generation criterion
         """
 
         if offspring_size is None:
@@ -163,16 +160,10 @@ class CMA_MO(cma.StrategyMultiObjective):
         self.active = True
         if max_ngen <= 0:
             max_ngen = 100 + 50 * (self.problem_size + 3) ** 2 / numpy.sqrt(
-                lambda_
+                self.lambda_
             )
 
-        self.stopping_conditions = [
-            MaxNGen(max_ngen),
-        ]
-        if use_stagnation_criterion:
-            self.stopping_conditions.append(
-                Stagnationv2(lambda_, self.problem_size)
-            )
+        self.stopping_conditions = [MaxNGen(max_ngen)]
 
     def _select(self, candidates):
         """Select the best candidates of the population
@@ -251,6 +242,6 @@ class CMA_MO(cma.StrategyMultiObjective):
             if c.criteria_met:
                 logger.info(
                     "CMA stopped because of termination criteria: " +
-                    "" + " ".join(c.name)
+                    " ".join(c.name)
                 )
                 self.active = False

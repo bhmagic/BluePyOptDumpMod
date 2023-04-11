@@ -199,10 +199,7 @@ class DEAPOptimisation(bluepyopt.optimisations.Optimisation):
 
         # Register the evaluation function for the individuals
         # import deap_efel_eval1
-        self.toolbox.register(
-            "evaluate",
-            self.evaluator.init_simulator_and_evaluate_with_lists
-        )
+        self.toolbox.register("evaluate", self.evaluator.evaluate_with_lists)
 
         # Register the mate operator
         self.toolbox.register(
@@ -251,6 +248,7 @@ class DEAPOptimisation(bluepyopt.optimisations.Optimisation):
             self.toolbox.register("map", self.map_function)
 
     def run(self,
+            dump_location,
             max_ngen=10,
             offspring_size=None,
             continue_cp=False,
@@ -258,6 +256,7 @@ class DEAPOptimisation(bluepyopt.optimisations.Optimisation):
             cp_frequency=1,
             parent_population=None,
             terminator=None):
+
         """Run optimisation"""
         # Allow run function to override offspring_size
         # TODO probably in the future this should not be an object field
@@ -312,6 +311,7 @@ class DEAPOptimisation(bluepyopt.optimisations.Optimisation):
             self.cxpb,
             self.mutpb,
             max_ngen,
+            dump_location,
             stats=stats,
             halloffame=self.hof,
             cp_frequency=cp_frequency,

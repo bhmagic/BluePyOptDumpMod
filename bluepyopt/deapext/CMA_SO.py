@@ -31,7 +31,7 @@ from deap import cma
 
 from .stoppingCriteria import (
     MaxNGen,
-    Stagnationv2,
+    Stagnation,
     TolHistFun,
     EqualFunVals,
     NoEffectAxis,
@@ -59,24 +59,21 @@ class CMA_SO(cma.Strategy):
         RandIndCreator,
         map_function=None,
         use_scoop=False,
-        use_stagnation_criterion=True,
     ):
         """Constructor
 
         Args:
-            centroid (list): initial guess used as the starting point of
-            the CMA-ES
-            offspring_size (int): number of offspring individuals in each
-                generation
-            sigma (float): initial standard deviation of the distribution
-            max_ngen (int): total number of generation to run
-            IndCreator (fcn): function returning an individual of the pop
-            RandIndCreator (fcn): function creating a random individual.
-            map_function (map): function used to map (parallelize) the
-                evaluation function calls
-            use_scoop (bool): use scoop map for parallel computation
-            use_stagnation_criterion (bool): whether to use the stagnation
-                stopping criterion on top of the maximum generation criterion
+             centroid (list): initial guess used as the starting point of
+             the CMA-ES
+             offspring_size (int): number of offspring individuals in each
+                 generation
+             sigma (float): initial standard deviation of the distribution
+             max_ngen (int): total number of generation to run
+             IndCreator (fcn): function returning an individual of the pop
+             RandIndCreator (fcn): function creating a random individual.
+             map_function (map): function used to map (parallelize) the
+                 evaluation function calls
+             use_scoop (bool): use scoop map for parallel computation
         """
 
         if offspring_size is None:
@@ -106,23 +103,20 @@ class CMA_SO(cma.Strategy):
         self.active = True
         if max_ngen <= 0:
             max_ngen = 100 + 50 * (self.problem_size + 3) ** 2 / numpy.sqrt(
-                lambda_
+                self.lambda_
             )
 
         self.stopping_conditions = [
             MaxNGen(max_ngen),
-            TolHistFun(lambda_, self.problem_size),
-            EqualFunVals(lambda_, self.problem_size),
+            Stagnation(self.lambda_, self.problem_size),
+            TolHistFun(self.lambda_, self.problem_size),
+            EqualFunVals(self.lambda_, self.problem_size),
             NoEffectAxis(self.problem_size),
             TolUpSigma(float(self.sigma)),
             TolX(),
             ConditionCov(),
             NoEffectCoor(),
         ]
-        if use_stagnation_criterion:
-            self.stopping_conditions.append(
-                Stagnationv2(lambda_, self.problem_size)
-            )
 
     def update(self, population):
         """Update the current covariance matrix strategy from the
@@ -226,6 +220,6 @@ class CMA_SO(cma.Strategy):
             if c.criteria_met:
                 logger.info(
                     "CMA stopped because of termination criteria: " +
-                    "" + " ".join(c.name)
+                    " ".join(c.name)
                 )
                 self.active = False

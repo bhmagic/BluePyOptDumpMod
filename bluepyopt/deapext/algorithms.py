@@ -89,6 +89,7 @@ def eaAlphaMuPlusLambdaCheckpoint(
         cxpb,
         mutpb,
         ngen,
+        dump_location, 
         stats=None,
         halloffame=None,
         cp_frequency=1,
@@ -96,7 +97,7 @@ def eaAlphaMuPlusLambdaCheckpoint(
         continue_cp=False,
         terminator=None,
         param_names=None):
-    r"""This is the :math:`(~\alpha,\mu~,~\lambda)` evolutionary algorithm
+    """This is the :math:`(~\alpha,\mu~,~\lambda)` evolutionary algorithm
 
     Args:
         population(list of deap Individuals)
@@ -156,11 +157,58 @@ def eaAlphaMuPlusLambdaCheckpoint(
 
     stopping_criteria = [MaxNGen(ngen)]
 
+    gen = start_gen
+
+    dump_1_list = os.listdir(dump_location + '/dump_1')
+    dump_1_data = []
+    for each_file in dump_1_list:
+        file_temp = open(dump_location + '/dump_1/' + each_file, 'rb')
+        data_temp = pickle.load(file_temp)
+        file_temp.close()
+        dump_1_data.append(data_temp)
+        os.remove(dump_location + '/dump_1/' + each_file)
+
+
+    file_temp = open(dump_location + '/dump_1_' + str(gen), 'wb')
+    pickle.dump(dump_1_data, file_temp)
+    file_temp.close()
+
+    dump_1_list = os.listdir(dump_location + '/dump_2')
+    dump_1_data = []
+    for each_file in dump_1_list:
+        file_temp = open(dump_location + '/dump_2/' + each_file, 'rb')
+        data_temp = pickle.load(file_temp)
+        file_temp.close()
+        dump_1_data.append(data_temp)
+        os.remove(dump_location + '/dump_2/' + each_file)
+
+
+    file_temp = open(dump_location + '/dump_2_' + str(gen), 'wb')
+    pickle.dump(dump_1_data, file_temp)
+    file_temp.close()
+
+    dump_1_list = os.listdir(dump_location + '/dump_3')
+    dump_1_data = []
+    for each_file in dump_1_list:
+        file_temp = open(dump_location + '/dump_3/' + each_file, 'rb')
+        data_temp = pickle.load(file_temp)
+        file_temp.close()
+        dump_1_data.append(data_temp)
+        os.remove(dump_location + '/dump_3/' + each_file)
+
+    file_temp = open(dump_location + '/dump_3_' + str(gen), 'wb')
+    pickle.dump(dump_1_data, file_temp)
+    file_temp.close()
+
+
+
+
+
     # Begin the generational process
     gen = start_gen + 1
     stopping_params = {"gen": gen}
     while utils.run_next_gen(
-            not (_check_stopping_criteria(stopping_criteria, stopping_params)),
+            not(_check_stopping_criteria(stopping_criteria, stopping_params)),
             terminator):
         offspring = _get_offspring(parents, toolbox, cxpb, mutpb)
 
@@ -175,7 +223,7 @@ def eaAlphaMuPlusLambdaCheckpoint(
 
         logger.info(logbook.stream)
 
-        if (cp_filename and cp_frequency and
+        if(cp_filename and cp_frequency and
            gen % cp_frequency == 0):
             cp = dict(population=population,
                       generation=gen,
@@ -190,7 +238,57 @@ def eaAlphaMuPlusLambdaCheckpoint(
                 shutil.copy(cp_filename_tmp, cp_filename)
                 logger.debug('Wrote checkpoint to %s', cp_filename)
 
+
+
+        dump_1_list = os.listdir(dump_location + '/dump_1')
+        dump_1_data = []
+        for each_file in dump_1_list:
+            file_temp = open(dump_location + '/dump_1/' + each_file, 'rb')
+            data_temp = pickle.load(file_temp)
+            file_temp.close()
+            dump_1_data.append(data_temp)
+            os.remove(dump_location + '/dump_1/' + each_file)
+
+
+        file_temp = open(dump_location + '/dump_1_' + str(gen), 'wb')
+        pickle.dump(dump_1_data, file_temp)
+        file_temp.close()
+
+
+
+        dump_1_list = os.listdir(dump_location + '/dump_2')
+        dump_1_data = []
+        for each_file in dump_1_list:
+            file_temp = open(dump_location + '/dump_2/' + each_file, 'rb')
+            data_temp = pickle.load(file_temp)
+            file_temp.close()
+            dump_1_data.append(data_temp)
+            os.remove(dump_location + '/dump_2/' + each_file)
+
+
+        file_temp = open(dump_location + '/dump_2_' + str(gen), 'wb')
+        pickle.dump(dump_1_data, file_temp)
+        file_temp.close()
+
+
+        dump_1_list = os.listdir(dump_location + '/dump_3')
+        dump_1_data = []
+        for each_file in dump_1_list:
+            file_temp = open(dump_location + '/dump_3/' + each_file, 'rb')
+            data_temp = pickle.load(file_temp)
+            file_temp.close()
+            dump_1_data.append(data_temp)
+            os.remove(dump_location + '/dump_3/' + each_file)
+
+
+        file_temp = open(dump_location + '/dump_3_' + str(gen), 'wb')
+        pickle.dump(dump_1_data, file_temp)
+        file_temp.close()
+
+
+
         gen += 1
         stopping_params["gen"] = gen
+
 
     return population, halloffame, logbook, history
